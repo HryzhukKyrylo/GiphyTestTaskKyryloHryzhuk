@@ -35,7 +35,7 @@ object NetworkModule {
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create()).build()
 
-//    @Singleton
+    //    @Singleton
 //    @Provides
 //    fun provideOkHttpClient(): OkHttpClient =
 //        OkHttpClient.Builder().build()
@@ -54,5 +54,6 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideGiphyRepository(apiService: ApiService): GiphyRepository = GiphyRepositoryImpl(apiService)
+    fun provideGiphyRepository(apiService: ApiService): GiphyRepository =
+        GiphyRepositoryImpl(apiService)
 }

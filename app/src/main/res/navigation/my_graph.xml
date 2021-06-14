@@ -7,16 +7,16 @@
 
     <fragment
         android:id="@+id/mainScreenFragment"
-        android:name="com.example.giphytesttaskkyrylohryzhuk.MainScreenFragment"
+        android:name="com.example.giphytesttaskkyrylohryzhuk.ui.mainscreen.MainScreenFragment"
         android:label="fragment_main_screen"
-        tools:layout="@layout/fragment_main_screen" >
+        tools:layout="@layout/fragment_main_screen">
         <action
             android:id="@+id/navigateToDetalScreenFragment"
             app:destination="@id/detalScreenFragment" />
     </fragment>
     <fragment
         android:id="@+id/detalScreenFragment"
-        android:name="com.example.giphytesttaskkyrylohryzhuk.DetalScreenFragment"
+        android:name="com.example.giphytesttaskkyrylohryzhuk.ui.detalscreen.DetalScreenFragment"
         android:label="fragment_detal_screen"
         tools:layout="@layout/fragment_detal_screen" />
 </navigation>
