@@ -51,7 +51,7 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickedListen
     }
 
     private fun initObserve() {
-        viewModel.getGiphy().observe(viewLifecycleOwner, {
+        viewModel.getGiphy(requireContext()).observe(viewLifecycleOwner, {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -66,7 +66,7 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickedListen
                     Status.ERROR -> {
                         binding.recyclerView.visibility = View.GONE
                         binding.progressBar.visibility = View.VISIBLE
-                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT)
+                        Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
                             .show()
                     }
                 }
