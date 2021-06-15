@@ -10,8 +10,6 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.giphytesttaskkyrylohryzhuk.databinding.FragmentDetalScreenBinding
 import com.example.giphytesttaskkyrylohryzhuk.utils.CheckNetwork
-import com.example.giphytesttaskkyrylohryzhuk.utils.Resource
-
 
 class DetalScreenFragment : Fragment() {
     private lateinit var binding: FragmentDetalScreenBinding
@@ -43,7 +41,6 @@ class DetalScreenFragment : Fragment() {
         } else {
             Toast.makeText(requireContext(), "No Internet connection!", Toast.LENGTH_SHORT).show()
         }
-
     }
 
     companion object {

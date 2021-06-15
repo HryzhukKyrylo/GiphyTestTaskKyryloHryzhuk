@@ -16,14 +16,24 @@ import com.example.giphytesttaskkyrylohryzhuk.databinding.FragmentMainScreenBind
 import com.example.giphytesttaskkyrylohryzhuk.ui.detalscreen.DetalScreenFragment.Companion.GIFS_URL
 import com.example.giphytesttaskkyrylohryzhuk.ui.mainscreen.adapter.CustomRecyclerAdapter
 import com.example.giphytesttaskkyrylohryzhuk.ui.mainscreen.viewmodel.MainViewModel
+import com.example.giphytesttaskkyrylohryzhuk.utils.CheckNetwork
 import com.example.giphytesttaskkyrylohryzhuk.utils.Status
 
 class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickedListener {
 
     private lateinit var binding: FragmentMainScreenBinding
     private val viewModel: MainViewModel by activityViewModels()
-    private val gipAdapter: CustomRecyclerAdapter by lazy { CustomRecyclerAdapter() }
+    private val giphyAdapter: CustomRecyclerAdapter by lazy { CustomRecyclerAdapter() }
     private var backPressed = 0L
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (CheckNetwork.hasInternetConnection(requireContext())) {
+            viewModel.getGiphy()
+        } else {
+            Toast.makeText(requireContext(),  resources.getString(R.string.no_internet), Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,22 +46,22 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickedListen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        onBackPressed()
+        initBackPressedListener()
         initAdapter()
         initListener()
         initObserve()
     }
 
     private fun initAdapter() {
-        binding.recyclerView.adapter = gipAdapter
+        binding.recyclerView.adapter = giphyAdapter
     }
 
     private fun initListener() {
-        gipAdapter.setListener(this)
+        giphyAdapter.setListener(this)
     }
 
     private fun initObserve() {
-        viewModel.getGiphy(requireContext()).observe(viewLifecycleOwner, {
+        viewModel.responseGiphy.observe(viewLifecycleOwner, {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -74,7 +84,7 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickedListen
         })
     }
 
-    private fun onBackPressed() {
+    private fun initBackPressedListener() {
         activity?.onBackPressedDispatcher?.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -91,16 +101,18 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickedListen
                         backPressed = System.currentTimeMillis()
                     }
                 }
-            })
+            }
+        )
     }
 
     private fun retrieveList(list: List<Data>) {
-        gipAdapter.updateItems(list)
+        giphyAdapter.updateItems(list)
     }
 
     override fun onImageClicked(gifUrl: String) {
-        val bundle = bundleOf(GIFS_URL to gifUrl)
-
-        findNavController().navigate(R.id.navigateToDetalScreenFragment, bundle)
+        findNavController().navigate(
+            R.id.navigateToDetalScreenFragment,
+            bundleOf(GIFS_URL to gifUrl)
+        )
     }
 }

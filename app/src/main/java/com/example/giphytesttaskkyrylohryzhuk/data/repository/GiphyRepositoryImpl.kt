@@ -6,7 +6,6 @@ import javax.inject.Inject
 
 class GiphyRepositoryImpl @Inject constructor(
     private val apiService: ApiService
-): GiphyRepository{
+) : GiphyRepository {
     override suspend fun loadGiphy(): GiphyModel = apiService.loadGiphy()
-
 }

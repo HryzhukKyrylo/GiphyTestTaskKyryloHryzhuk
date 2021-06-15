@@ -2,4 +2,5 @@
     <string name="app_name">GiphyTestTaskKyryloHryzhuk</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="pack_press">Click again</string>
+    <string name="no_internet">No Internet connection!</string>
 </resources>

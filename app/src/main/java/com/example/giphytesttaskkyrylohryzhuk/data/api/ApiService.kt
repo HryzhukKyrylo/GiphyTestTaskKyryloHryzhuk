@@ -24,6 +24,4 @@ interface ApiService {
         const val QUERY_LANG = "en"
         const val QUERY_G = "popular"
     }
-
-
 }

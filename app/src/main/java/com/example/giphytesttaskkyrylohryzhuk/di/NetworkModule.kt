@@ -1,6 +1,5 @@
 package com.example.giphytesttaskkyrylohryzhuk.di
 
-import androidx.viewbinding.BuildConfig
 import com.example.giphytesttaskkyrylohryzhuk.data.api.ApiService
 import com.example.giphytesttaskkyrylohryzhuk.data.repository.GiphyRepository
 import com.example.giphytesttaskkyrylohryzhuk.data.repository.GiphyRepositoryImpl
@@ -35,10 +34,6 @@ object NetworkModule {
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create()).build()
 
-    //    @Singleton
-//    @Provides
-//    fun provideOkHttpClient(): OkHttpClient =
-//        OkHttpClient.Builder().build()
     @Singleton
     @Provides
     fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
