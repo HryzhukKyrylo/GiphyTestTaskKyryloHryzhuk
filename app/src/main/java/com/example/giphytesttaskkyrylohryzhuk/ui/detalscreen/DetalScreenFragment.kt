@@ -33,7 +33,6 @@ class DetalScreenFragment : Fragment() {
         }
         Glide.with(requireContext())
             .load(image)
-            .load(image)
             .into(binding.imageViewDetal)
     }
 
