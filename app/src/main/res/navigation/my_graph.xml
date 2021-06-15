@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/mainScreenFragment"
         android:name="com.example.giphytesttaskkyrylohryzhuk.ui.mainscreen.MainScreenFragment"
-        android:label="fragment_main_screen"
+        android:label="@string/main_label"
         tools:layout="@layout/fragment_main_screen">
         <action
             android:id="@+id/navigateToDetalScreenFragment"
@@ -17,6 +17,6 @@
     <fragment
         android:id="@+id/detalScreenFragment"
         android:name="com.example.giphytesttaskkyrylohryzhuk.ui.detalscreen.DetalScreenFragment"
-        android:label="fragment_detal_screen"
+        android:label="@string/detal_label"
         tools:layout="@layout/fragment_detal_screen" />
 </navigation>
