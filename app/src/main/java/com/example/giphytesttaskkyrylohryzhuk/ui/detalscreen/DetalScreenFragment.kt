@@ -1,15 +1,13 @@
 package com.example.giphytesttaskkyrylohryzhuk.ui.detalscreen
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.giphytesttaskkyrylohryzhuk.databinding.FragmentDetalScreenBinding
-import com.example.giphytesttaskkyrylohryzhuk.utils.CheckNetwork
 
 class DetalScreenFragment : Fragment() {
     private lateinit var binding: FragmentDetalScreenBinding
@@ -33,17 +31,13 @@ class DetalScreenFragment : Fragment() {
             findNavController().popBackStack()
             return
         }
-        if (CheckNetwork.hasInternetConnection(requireContext())) {
-            Glide.with(requireContext())
-                .load(image)
-                .load(image)
-                .into(binding.imageViewDetal)
-        } else {
-            Toast.makeText(requireContext(), "No Internet connection!", Toast.LENGTH_SHORT).show()
-        }
+        Glide.with(requireContext())
+            .load(image)
+            .load(image)
+            .into(binding.imageViewDetal)
     }
 
     companion object {
-        const val GIFS_URL = "image_url"
+        const val GIFS_URL = "giphy_url"
     }
 }

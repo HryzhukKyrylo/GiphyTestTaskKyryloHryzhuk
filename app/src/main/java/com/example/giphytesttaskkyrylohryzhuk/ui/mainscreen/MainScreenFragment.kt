@@ -1,13 +1,13 @@
 package com.example.giphytesttaskkyrylohryzhuk.ui.mainscreen
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.giphytesttaskkyrylohryzhuk.R
@@ -16,8 +16,8 @@ import com.example.giphytesttaskkyrylohryzhuk.databinding.FragmentMainScreenBind
 import com.example.giphytesttaskkyrylohryzhuk.ui.detalscreen.DetalScreenFragment.Companion.GIFS_URL
 import com.example.giphytesttaskkyrylohryzhuk.ui.mainscreen.adapter.CustomRecyclerAdapter
 import com.example.giphytesttaskkyrylohryzhuk.ui.mainscreen.viewmodel.MainViewModel
-import com.example.giphytesttaskkyrylohryzhuk.utils.CheckNetwork
 import com.example.giphytesttaskkyrylohryzhuk.utils.Status
+import com.example.giphytesttaskkyrylohryzhuk.utils.showSnack
 
 class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickedListener {
 
@@ -28,11 +28,7 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickedListen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (CheckNetwork.hasInternetConnection(requireContext())) {
-            viewModel.getGiphy()
-        } else {
-            Toast.makeText(requireContext(),  resources.getString(R.string.no_internet), Toast.LENGTH_SHORT).show()
-        }
+        viewModel.getGiphy()
     }
 
     override fun onCreateView(
@@ -75,13 +71,26 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickedListen
                     }
                     Status.ERROR -> {
                         binding.recyclerView.visibility = View.GONE
-                        binding.progressBar.visibility = View.VISIBLE
-                        Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
-                            .show()
+                        binding.progressBar.visibility = View.GONE
+                        resource.message?.let { it1 -> showMessage(it1) }
+
                     }
                 }
             }
         })
+    }
+
+    private fun showMessage(message : String){
+        if(message == resources.getString(R.string.no_internet)) {
+            binding.constraintLayout.showSnack(
+                resources.getString(R.string.no_internet),
+                resources.getString(R.string.retry)
+            ) {
+                viewModel.getGiphy()
+            }
+        }else {
+            Toast.makeText(requireContext(), resources.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun initBackPressedListener() {
