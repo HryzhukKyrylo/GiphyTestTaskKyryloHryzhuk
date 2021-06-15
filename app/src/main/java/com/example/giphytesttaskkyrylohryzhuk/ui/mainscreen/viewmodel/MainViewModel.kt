@@ -6,6 +6,7 @@ import com.example.giphytesttaskkyrylohryzhuk.data.model.GiphyModel
 import com.example.giphytesttaskkyrylohryzhuk.data.repository.GiphyRepository
 import com.example.giphytesttaskkyrylohryzhuk.utils.CheckNetwork
 import com.example.giphytesttaskkyrylohryzhuk.utils.Resource
+import com.example.giphytesttaskkyrylohryzhuk.utils.StringUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,8 +16,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     app: Application,
-    private val repository: GiphyRepository
-) :AndroidViewModel(app){
+    private val repository: GiphyRepository,
+    private val stringUtils: StringUtils
+) : AndroidViewModel(app) {
 
     private val _responseGiphy = MutableLiveData<Resource<GiphyModel>>()
     val responseGiphy = _responseGiphy
@@ -27,11 +29,11 @@ class MainViewModel @Inject constructor(
             try {
                 if (CheckNetwork.hasInternetConnection(getApplication())) {
                     _responseGiphy.postValue(Resource.success(data = repository.loadGiphy()))
-                }else {
+                } else {
                     _responseGiphy.postValue(
                         Resource.error(
                             data = null,
-                            message = "No Internet connection!"
+                            message = stringUtils.noInternetConnection()
                         )
                     )
                 }
@@ -39,7 +41,7 @@ class MainViewModel @Inject constructor(
                 _responseGiphy.postValue(
                     Resource.error(
                         data = null,
-                        message = exception.message ?: "Error Occurred!"
+                        message = exception.message ?: stringUtils.somethingWentWrong()
                     )
                 )
             }

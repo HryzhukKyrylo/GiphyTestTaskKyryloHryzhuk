@@ -1,9 +1,11 @@
 package com.example.giphytesttaskkyrylohryzhuk.di
 
+import android.app.Application
 import com.example.giphytesttaskkyrylohryzhuk.data.api.ApiService
 import com.example.giphytesttaskkyrylohryzhuk.data.repository.GiphyRepository
 import com.example.giphytesttaskkyrylohryzhuk.data.repository.GiphyRepositoryImpl
 import com.example.giphytesttaskkyrylohryzhuk.utils.Constasts.BASE_URL
+import com.example.giphytesttaskkyrylohryzhuk.utils.StringUtils
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,4 +53,10 @@ object NetworkModule {
     @Singleton
     fun provideGiphyRepository(apiService: ApiService): GiphyRepository =
         GiphyRepositoryImpl(apiService)
+
+    @Singleton
+    @Provides
+    fun providesStringUtils(app: Application): StringUtils {
+        return StringUtils(app)
+    }
 }

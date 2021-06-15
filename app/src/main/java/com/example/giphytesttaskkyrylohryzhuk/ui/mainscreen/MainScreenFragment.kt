@@ -17,10 +17,14 @@ import com.example.giphytesttaskkyrylohryzhuk.ui.detalscreen.DetalScreenFragment
 import com.example.giphytesttaskkyrylohryzhuk.ui.mainscreen.adapter.CustomRecyclerAdapter
 import com.example.giphytesttaskkyrylohryzhuk.ui.mainscreen.viewmodel.MainViewModel
 import com.example.giphytesttaskkyrylohryzhuk.utils.Status
+import com.example.giphytesttaskkyrylohryzhuk.utils.StringUtils
 import com.example.giphytesttaskkyrylohryzhuk.utils.showSnack
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickedListener {
-
+    @Inject lateinit var stringUtils: StringUtils
     private lateinit var binding: FragmentMainScreenBinding
     private val viewModel: MainViewModel by activityViewModels()
     private val giphyAdapter: CustomRecyclerAdapter by lazy { CustomRecyclerAdapter() }
@@ -81,15 +85,15 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickedListen
     }
 
     private fun showMessage(message : String){
-        if(message == resources.getString(R.string.no_internet)) {
+        if(message == stringUtils.noInternetConnection()) {
             binding.constraintLayout.showSnack(
-                resources.getString(R.string.no_internet),
-                resources.getString(R.string.retry)
+                stringUtils.noInternetConnection(),
+               stringUtils.retry()
             ) {
                 viewModel.getGiphy()
             }
         }else {
-            Toast.makeText(requireContext(), resources.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), stringUtils.somethingWentWrong(), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -104,7 +108,7 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickedListen
                     } else {
                         Toast.makeText(
                             requireContext(),
-                            resources.getString(R.string.pack_press),
+                            stringUtils.clickAgain(),
                             Toast.LENGTH_SHORT
                         ).show()
                         backPressed = System.currentTimeMillis()
